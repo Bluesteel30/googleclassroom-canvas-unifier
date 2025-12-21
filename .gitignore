@@ -1,5 +1,7 @@
 # Compiled class file
 *.class
+.env
+client_secret.json
 
 # Log file
 *.log
