@@ -22,4 +22,5 @@ client_secret.json
 *.class
 .env
 client_secret.json
+token.json
 >>>>>>> fbbdec5 (Initial commit for the Canvas Classroom unifier I made)
