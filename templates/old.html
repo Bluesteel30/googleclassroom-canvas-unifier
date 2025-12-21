@@ -1,0 +1,38 @@
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
+
+    {% for assignment in course_link %}
+            {% if assignment.get('due_at') and assignment.get('course_id') %}
+        <div class="card border-primary mb-3 bg-transparent" style="width: 20rem;">
+            <div class="card-body">
+                <h5 class="card-title"><span class="badge text-bg-primary"><span class= "text">{{ assignment['name'] }}</span></span></h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary"><span class="badge text-bg-danger">{{ c[assignment['course_id']]}}</span></h6>
+                <p><span class="badge text-bg-secondary">{{ assignment['due_at'] }}, {{ assignment['workflow_state'] }}</span></p>
+                <a href="https://canvas.instructure.com/courses/{{ assignment['course_id'] }}/assignments/{{ assignment['id'] }}" class="btn btn-primary">View on Canvas</a>
+            </div>
+        </div>
+        </div>
+        </div>
+        <br>
+        {% else %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+        <div class="card border-success mb-3 bg-transparent" style="width: 20rem;">
+            <div class="card-body">
+                <h5 class="card-title"><span class="badge text-bg-primary"><span class= "text">{{ assignment['title'] }}</span></span></h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary"><span class="badge text-bg-success">{{ a[assignment['courseId']]}}</span></h6>
+                {% if assignment['due_at'] %}
+                <p><span class="badge text-bg-secondary">{{ assignment['due_at'] }}, {{ assignment['workType'] }}</span></p>
+                {% else %}
+                <p><span class="badge text-bg-secondary">{{ assignment['workType'] }}</span></p>
+                {% endif %}
+                <a href="{{ assignment['alternateLink'] }}" class="btn btn-primary">View on Classroom</a>
+            </div>
+        </div>
+    </div>
+    </div>
+        <br>
+
+
+        {% endif %}
+    {% endfor %} 
