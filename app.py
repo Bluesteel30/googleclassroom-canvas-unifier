@@ -7,6 +7,7 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from datetime import datetime
 from dotenv import load_dotenv
+import pickle
 
 
 
@@ -105,11 +106,14 @@ service = build('classroom', 'v1', credentials=creds)
 # List all courses
 results = service.courses().list().execute()
 courses = results.get('courses', [])
-course_d = {}
+print("courses 99999999: " , courses)
+link = {}
 every_assignment = []
 for course in courses:
+    print(course['name'])
     c_d[course['name']] = False
     course_id = course['id']
+    link[course_id] = course['name']
     assignments = []
     page_token = None
     while True:
@@ -126,7 +130,7 @@ for course in courses:
             break  # No more pages
     every_assignment.extend(assignments)
 
-    break
+    
 for i in every_assignment:
     submission = service.courses().courseWork().studentSubmissions().list(
     courseId = i['courseId'],
@@ -134,7 +138,7 @@ for i in every_assignment:
     userId='me'
     ).execute()
     i['is_canvas'] = False 
-    i['course_name'] = course['name']
+    i['course_name'] = link[i['courseId']]
     submissions = submission.get('studentSubmissions', [])
     i['submission'] = submissions[0] if submissions else None
     if i['submission']['state'] == 'CREATED':
@@ -168,9 +172,26 @@ def parse_due_date(assignment):
 
 print(c_d)
 
+
+
 total_list.extend(every_assignment)
 total_list.sort(key=parse_due_date, reverse=True)  # Latest first
+
+#with open('c_d.pkl', 'wb') as f:
+#    pickle.dump(c_d, f)
+
+
+#with open('c_d.pkl', 'rb') as f:  # 'rb' = read binary
+#    c_d = pickle.load(f)
+
+#with open('data.pkl', 'wb') as f:
+ # pickle.dump(total_list, f)
+
+#with open('data.pkl', 'rb') as f:  # 'rb' = read binary
+#    total_list = pickle.load(f)
 app = Flask(__name__)
+
+
 @app.route('/', methods = ['GET','POST'])
 def home():
     temp_list = []
