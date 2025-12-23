@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 import pickle
 
 
-current = False
+current = True
 if current:
     load_dotenv("api.env")
     api = os.getenv('API_KEY')
