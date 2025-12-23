@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assignment Compilier</title>
+    <title>Classroom</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 </head>
@@ -15,17 +15,19 @@
     <div class="container-fluid justify-content-start">
     <a class="navbar-brand" href="/" role="link">Home</a>
     <a class="navbar-brand" href="/canvas" role="link">Canvas</a>
+
       <div class="dropdown">
     
   <form method="POST" action="/classroom">
   <select class="form-select form-select-sm" name="course" aria-label="Filter By Class" onchange="this.form.submit()">
     <option selected disabled>Filter By Class</option>
     {% for course, is_canvas in c.items() %}
-    {% if is_canvas == False %}
-      <option value="{{ course }}">{{ course }}</option>
-    {% endif %}
+      {% if is_canvas == False %}
+        <option value="{{ course }}">{{ course }}</option>
+      {% endif %}
     {% endfor %}
   </select>
+
 </form>
 
 </div>
@@ -43,10 +45,10 @@
         <div class="card border-success bg-transparent h-100">
           <div class="card-body">
             <h5 class="card-title">
-              <span class="badge text-bg-primary text">{{ assignment['title'] }}</span>
+              <span class="badge text-bg-success text">{{ assignment['title'] }}</span>
             </h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary">
-              <span class="badge text-bg-success">{{ assignment['course_name'] }}</span>
+            <h6 class="card-subtitle mb-2 text-body-primary">
+              <span class="badge text-bg-primary">{{ assignment['course_name'] }}</span>
             </h6>
             {% if assignment['due_at'] %}
               <p>
@@ -61,7 +63,7 @@
                 </span>
               </p>
             {% endif %}
-            <a href="{{ assignment['alternateLink'] }}" class="btn btn-primary">
+            <a href="{{ assignment['alternateLink'] }}" class="btn btn-warning">
               View on Classroom
             </a>
           </div>

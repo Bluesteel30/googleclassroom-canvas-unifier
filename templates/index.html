@@ -35,20 +35,20 @@
   {% for assignment in course_link %}
     <div class="col">
       {% if assignment['is_canvas'] %}
-        <div class="card border-primary bg-transparent h-100">
+        <div class="card border-danger bg-transparent h-100">
           <div class="card-body">
             <h5 class="card-title">
-              <span class="badge text-bg-primary text">{{ assignment['name'] }}</span>
+              <span class="badge text-bg-danger text">{{ assignment['name'] }}</span>
             </h5>
             <h6 class="card-subtitle mb-2 text-body-secondary">
-              <span class="badge text-bg-danger">{{ assignment['course_name'] }}</span>
+              <span class="badge text-bg-primary">{{ assignment['course_name'] }}</span>
             </h6>
             <p>
               <span class="badge text-bg-secondary">
                 {{ assignment['due_at'] }}, {{ assignment['workflow_state'] }}
               </span>
             </p>
-            <a href="https://canvas.instructure.com/courses/{{ assignment['course_id'] }}/assignments/{{ assignment['id'] }}" class="btn btn-primary">
+            <a href="https://canvas.instructure.com/courses/{{ assignment['course_id'] }}/assignments/{{ assignment['id'] }}" class="btn btn-warning">
               View on Canvas
             </a>
           </div>
@@ -57,10 +57,10 @@
         <div class="card border-success bg-transparent h-100">
           <div class="card-body">
             <h5 class="card-title">
-              <span class="badge text-bg-primary text">{{ assignment['title'] }}</span>
+              <span class="badge text-bg-success text">{{ assignment['title'] }}</span>
             </h5>
             <h6 class="card-subtitle mb-2 text-body-secondary">
-              <span class="badge text-bg-success">{{ assignment['course_name'] }}</span>
+              <span class="badge text-bg-primary">{{ assignment['course_name'] }}</span>
             </h6>
             {% if assignment['due_at'] %}
               <p>
@@ -75,7 +75,7 @@
                 </span>
               </p>
             {% endif %}
-            <a href="{{ assignment['alternateLink'] }}" class="btn btn-primary">View on Classroom</a>
+            <a href="{{ assignment['alternateLink'] }}" class="btn btn-warning">View on Classroom</a>
           </div>
         </div>
       {% endif %}

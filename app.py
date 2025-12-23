@@ -8,10 +8,9 @@ from google.oauth2.credentials import Credentials
 from datetime import datetime
 from dotenv import load_dotenv
 import pickle
-import time
 
 
-current = True;
+current = False
 if current:
     load_dotenv("api.env")
     api = os.getenv('API_KEY')
@@ -22,7 +21,6 @@ if current:
         }
     endpoint = "courses"
     response = requests.get(base_url+endpoint, headers=headers)
-
 
 
     total_list = []
@@ -109,7 +107,6 @@ if current:
     # List all courses
     results = service.courses().list().execute()
     courses = results.get('courses', [])
-    print("courses 99999999: " , courses)
     link = {}
     every_assignment = []
     for course in courses:
@@ -172,8 +169,6 @@ if current:
                 return datetime.now()
 
         return datetime.now()
-
-    print(c_d)
 
 
     total_list.extend(every_assignment)
