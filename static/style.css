@@ -8,3 +8,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.pain {
+  transform: scale(0.98);
+  transform-origin: top center;
+}
