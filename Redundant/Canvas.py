@@ -2,7 +2,7 @@ import requests
 base_url = "https://canvas.instructure.com/api/v1/"
 course_link = {}
 headers = {
-    "Authorization": "Bearer 7~YcceBzL7wPGaLXnARWvv9aBXHw9HR8FLUTkYT6rNUUruxUhn3h6tEQW8ZeJwFc66"
+    "Authorization": "Bearer API_KEY_HERE"
     }
 endpoint = "courses"
 response = requests.get(base_url+endpoint, headers=headers)
