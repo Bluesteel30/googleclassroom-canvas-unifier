@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 import pickle
 
 
-current = True
+current = False
 if current:
     load_dotenv("api.env")
     api = os.getenv('API_KEY')
@@ -190,39 +190,51 @@ else:
 app = Flask(__name__)
 
 
+
+print(c_d.items())
 @app.route('/', methods = ['GET','POST'])
+
+
 def home():
+    f = ""
     temp_list = []
     course_name = request.form.get("course")
     if not course_name:
-        return render_template('index.html', course_link=total_list, c=c_d)
+        return render_template('index.html', course_link=total_list, c=c_d, f = f)
 
     for i in total_list:
         if i['course_name'] == course_name:
+            f = course_name
             temp_list.append(i)
-    return render_template('index.html', course_link=temp_list, c=c_d)
+    return render_template('index.html', course_link=temp_list, c=c_d, f = f)
 @app.route('/canvas', methods = ['GET','POST'])
 def canvas():
+    f = ""
     temp_list = []
     course_name = request.form.get("course")
+
     if not course_name:
-        return render_template('canvas.html', course_link=total_list, c=c_d)
+        return render_template('canvas.html', course_link=total_list, c=c_d, f = f)
 
     for i in total_list:
         if i['course_name'] == course_name:
+            f = course_name
             temp_list.append(i)
-    return render_template('canvas.html', course_link=temp_list, c=c_d)
+    return render_template('canvas.html', course_link=temp_list, c=c_d, f = f)
 @app.route('/classroom', methods = ['GET','POST'])
 def classroom():
+    f = ""
     temp_list = []
     course_name = request.form.get("course")
     if not course_name:
-        return render_template('gc.html', course_link=total_list, c=c_d)
+        return render_template('gc.html', course_link=total_list, c=c_d, f = f)
 
     for i in total_list:
         if i['course_name'] == course_name:
+            f = course_name
             temp_list.append(i)
-    return render_template('gc.html', course_link=temp_list, c=c_d)
+
+    return render_template('gc.html', course_link=temp_list, c=c_d, f = f)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)

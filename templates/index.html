@@ -17,10 +17,21 @@
     <div class="dropdown">
   <form method="POST" action="/">
   <select class="form-select form-select-sm" name="course" aria-label="Filter By Class" onchange="this.form.submit()">
-    <option selected disabled>Filter By Class</option>
-    {% for course, is_canvas in c.items() %}
-      <option value="{{ course }}">{{ course }}</option>
-    {% endfor %}
+    {% if f == "" %}
+      <option selected disabled>Filter By Class</option>
+        {% for course, is_canvas in c.items() %}
+          <option value="{{ course }}">{{ course }}</option>
+        {% endfor %}
+    {% else %}
+      <option selected disabled>{{f}}</option>
+        {% for course, is_canvas in c.items() %}
+          {% if course != f %}
+            <option value="{{ course }}">{{ course }}</option>
+          {% endif %}
+        {% endfor %}
+    {% endif %}
+
+
   </select>
 </form>
 
