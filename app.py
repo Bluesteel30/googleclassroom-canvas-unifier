@@ -191,48 +191,60 @@ app = Flask(__name__)
 
 
 
-print(c_d.items())
+print(c_d)
 @app.route('/', methods = ['GET','POST'])
 
 
 def home():
     f = ""
+    if "View All" in c_d:
+        del c_d["View All"]
     temp_list = []
     course_name = request.form.get("course")
-    if not course_name:
+    if not course_name or course_name == "View All":
         return render_template('index.html', course_link=total_list, c=c_d, f = f)
 
     for i in total_list:
         if i['course_name'] == course_name:
             f = course_name
             temp_list.append(i)
+            c_d["View All"] = True;
+            
     return render_template('index.html', course_link=temp_list, c=c_d, f = f)
 @app.route('/canvas', methods = ['GET','POST'])
 def canvas():
     f = ""
+    if "View All" in c_d:
+        del c_d["View All"]
     temp_list = []
     course_name = request.form.get("course")
 
-    if not course_name:
+    if not course_name or course_name == "View All":
         return render_template('canvas.html', course_link=total_list, c=c_d, f = f)
 
     for i in total_list:
         if i['course_name'] == course_name:
             f = course_name
             temp_list.append(i)
+            c_d["View All"] = True;
     return render_template('canvas.html', course_link=temp_list, c=c_d, f = f)
 @app.route('/classroom', methods = ['GET','POST'])
 def classroom():
     f = ""
+    if "View All" in c_d:
+        del c_d["View All"]
     temp_list = []
     course_name = request.form.get("course")
-    if not course_name:
+
+    if not course_name or course_name == "View All":
         return render_template('gc.html', course_link=total_list, c=c_d, f = f)
 
     for i in total_list:
         if i['course_name'] == course_name:
             f = course_name
             temp_list.append(i)
+            c_d["View All"] = False;
+
 
     return render_template('gc.html', course_link=temp_list, c=c_d, f = f)
 
