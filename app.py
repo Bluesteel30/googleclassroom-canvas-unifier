@@ -189,16 +189,15 @@ else:
 
 app = Flask(__name__)
 
-
-
 print(c_d)
 @app.route('/', methods = ['GET','POST'])
 
 
 def home():
     f = ""
-    if "View All" in c_d:
-        del c_d["View All"]
+    new_dict = dict()
+    if "View All" in new_dict:
+        del new_dict["View All"]
     temp_list = []
     course_name = request.form.get("course")
     if not course_name or course_name == "View All":
@@ -208,14 +207,16 @@ def home():
         if i['course_name'] == course_name:
             f = course_name
             temp_list.append(i)
-            c_d["View All"] = True;
+            new_dict["View All"] = True
+            new_dict |= c_d
             
-    return render_template('index.html', course_link=temp_list, c=c_d, f = f)
+    return render_template('index.html', course_link=temp_list, c=new_dict, f = f)
 @app.route('/canvas', methods = ['GET','POST'])
 def canvas():
     f = ""
-    if "View All" in c_d:
-        del c_d["View All"]
+    new_dict = dict()
+    if "View All" in new_dict:
+        del new_dict["View All"]
     temp_list = []
     course_name = request.form.get("course")
 
@@ -226,13 +227,16 @@ def canvas():
         if i['course_name'] == course_name:
             f = course_name
             temp_list.append(i)
-            c_d["View All"] = True;
-    return render_template('canvas.html', course_link=temp_list, c=c_d, f = f)
+            new_dict["View All"] = True
+            new_dict |= c_d
+    return render_template('canvas.html', course_link=temp_list, c=new_dict, f = f)
 @app.route('/classroom', methods = ['GET','POST'])
 def classroom():
     f = ""
-    if "View All" in c_d:
-        del c_d["View All"]
+    new_dict = dict()
+    if "View All" in new_dict:
+        del new_dict["View All"]
+
     temp_list = []
     course_name = request.form.get("course")
 
@@ -243,10 +247,11 @@ def classroom():
         if i['course_name'] == course_name:
             f = course_name
             temp_list.append(i)
-            c_d["View All"] = False;
+            new_dict["View All"] = False
+            new_dict |= c_d
 
 
-    return render_template('gc.html', course_link=temp_list, c=c_d, f = f)
+    return render_template('gc.html', course_link=temp_list, c=new_dict, f = f)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
