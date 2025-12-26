@@ -16,7 +16,7 @@
     <a class="navbar-brand" href="/classroom" role="link" style="color: #282b2b;">Classroom</a>
     <div class="dropdown">
   <form method="POST" action="/">
-  <select class="form-select form-select-sm" name="course" aria-label="Filter By Class" onchange="this.form.submit()">
+  <select class="form-select form-select-sm custom-select" name="course" style="background-color: #f3f2f5;color: #282b2b;" aria-label="Filter By Class" onchange="this.form.submit()">
     {% if f == "" %}
       <option selected disabled>Filter By Class</option>
         {% for course, is_canvas in c.items() %}
