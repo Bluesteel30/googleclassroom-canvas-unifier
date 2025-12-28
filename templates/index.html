@@ -56,7 +56,12 @@
             </h6>
             <p>
               <span class="badge text-bg-secondary">
-                {{ assignment['due_at'][5:7] +"/" + assignment['due_at'][8:10] +"/" + assignment['due_at'][0:4] }}, {{ assignment['workflow_state'] }}
+                {% if assignment['due_at'] != "No Due Date" %}
+                  {{   assignment['due_at'][5:7] +"/" + assignment['due_at'][8:10] +"/" + assignment['due_at'][0:4]}}, {{ assignment['workflow_state'] }}
+                {% else %}
+                  {{ assignment['due_at'] }}, {{ assignment['workflow_state'] }}
+                {% endif %}
+
               </span>
             </p>
             <a href="https://canvas.instructure.com/courses/{{ assignment['course_id'] }}/assignments/{{ assignment['id'] }}" class="btn btn-warning">
