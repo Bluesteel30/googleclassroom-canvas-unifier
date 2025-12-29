@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 </head>
 <body style="background-color:#282b2b;">
+    <!--This handles the creation of the website header with links back to the homepage and the classroom only section.-->
     <div class="mb-4">
     <nav class="navbar fixed-top" style="background-color: #f3f2f5;" data-bs-theme="dark">
     <div class="container-fluid justify-content-start">
@@ -17,10 +18,13 @@
     <a class="navbar-brand" href="/canvas" role="link" style="color: #282b2b;">Canvas</a>
 
       <div class="dropdown">
-    
+  <!-- This creates a dropdown menu for the user to filter which course they see-->
   <form method="POST" action="/classroom">
   
     <select class="form-select form-select-sm custom-select" name="course" style="background-color: #f3f2f5;color: #282b2b;" aria-label="Filter By Class" onchange="this.form.submit()">
+    <!-- f is used to see if a filter is already being applied so that the current filter is displayed. Previously when applied it would function but wouldn't say which filter was applied you could tell by the assignments but it wasn't optimal-->
+    <!-- Iterates through c to get all the courses -->
+    <!-- the is_canvas checks if the course in c is a classroom course as this is the classroom only webpage so only classroom classes should be displayed-->
     {% if f == "" %}
       <option selected disabled>Filter By Class</option>
       {% for course, is_canvas in c.items() %}
@@ -47,9 +51,10 @@
     <br>
     <br>
 
-
-<div class="row row-cols-1 row-cols-md-3 g-4 pain">
-  {% for assignment in course_link %}
+  <!-- This sections handles the displaying of the assignments -->
+  <div class="row row-cols-1 row-cols-md-3 g-4 pain">
+    <!-- itereates through every assignment then validates that it is a canvas assignment -->
+    {% for assignment in course_link %}
       {% if assignment['is_canvas'] == False %}
         <div class="col">
         <div class="card border-success bg-transparent h-100">
@@ -63,6 +68,7 @@
             {% if assignment['due_at'] %}
               <p>
                 <span class="badge text-bg-secondary">
+                  <!-- Displays the due date in the american formate-->
                   {{ assignment['due_at'].strftime("%m/%d/%Y") }}, {{ assignment['submission']['state'] }}
                 </span>
               </p>

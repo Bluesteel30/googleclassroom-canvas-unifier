@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 </head>
 <body style="background-color:#282b2b;">
+    <!--This handles the creation of the website header with links back to the homepage and the classroom only section.-->
     <div class="mb-4">
     <nav class="navbar fixed-top" style="background-color: #f3f2f5;" data-bs-theme="dark">
     <div class="container-fluid justify-content-start">
@@ -17,6 +18,8 @@
     <div class="dropdown">
   <form method="POST" action="/">
   <select class="form-select form-select-sm custom-select" name="course" style="background-color: #f3f2f5;color: #282b2b;" aria-label="Filter By Class" onchange="this.form.submit()">
+     <!-- f is used to see if a filter is already being applied so that the current filter is displayed. Previously when applied it would function but wouldn't say which filter was applied you could tell by the assignments but it wasn't optimal-->
+    <!-- Iterates through c to get all the courses both canvas and classroom-->
     {% if f == "" %}
       <option selected disabled>Filter By Class</option>
         {% for course, is_canvas in c.items() %}
@@ -42,7 +45,10 @@
     </div>
     <br>
     <br>
-    <div class="row row-cols-1 row-cols-md-3 g-4 pain">
+
+  <!-- This sections handles the displaying of the assignments -->
+  <!-- it works by basically combining the elements of canvas.html and gc.html through a condititional statment-->
+  <div class="row row-cols-1 row-cols-md-3 g-4 pain">
   {% for assignment in course_link %}
     <div class="col">
       {% if assignment['is_canvas'] %}
