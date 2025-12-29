@@ -80,7 +80,6 @@ if current:
         'https://www.googleapis.com/auth/classroom.courses.readonly',
         'https://www.googleapis.com/auth/classroom.student-submissions.me.readonly',
         'https://www.googleapis.com/auth/classroom.coursework.me'
-
     ]
 
     creds = None
@@ -187,11 +186,21 @@ else:
     with open('data.pkl', 'rb') as f:  # 'rb' = read binary
         total_list = pickle.load(f)
 
+
+
+
+
+
+
+
+
+
+
 app = Flask(__name__)
 
-print(c_d)
-@app.route('/', methods = ['GET','POST'])
 
+#creates a page which is acessed through the / path  this is the homepage which displays the unified assignments
+@app.route('/', methods = ['GET','POST'])
 
 def home():
     f = ""
@@ -201,6 +210,7 @@ def home():
     temp_list = []
     course_name = request.form.get("course")
     if not course_name or course_name == "View All":
+
         return render_template('index.html', course_link=total_list, c=c_d, f = f)
 
     for i in total_list:
@@ -211,7 +221,10 @@ def home():
             new_dict |= c_d
             
     return render_template('index.html', course_link=temp_list, c=new_dict, f = f)
+
+#creates a page with the path /canvas which displays solely canvas asignments
 @app.route('/canvas', methods = ['GET','POST'])
+
 def canvas():
     f = ""
     new_dict = dict()
@@ -221,6 +234,7 @@ def canvas():
     course_name = request.form.get("course")
 
     if not course_name or course_name == "View All":
+
         return render_template('canvas.html', course_link=total_list, c=c_d, f = f)
 
     for i in total_list:
@@ -230,7 +244,10 @@ def canvas():
             new_dict["View All"] = True
             new_dict |= c_d
     return render_template('canvas.html', course_link=temp_list, c=new_dict, f = f)
+
 @app.route('/classroom', methods = ['GET','POST'])
+
+#creates a page with the path /classroom which displays solely classroom asignments
 def classroom():
     f = ""
     new_dict = dict()
@@ -241,6 +258,7 @@ def classroom():
     course_name = request.form.get("course")
 
     if not course_name or course_name == "View All":
+
         return render_template('gc.html', course_link=total_list, c=c_d, f = f)
 
     for i in total_list:
@@ -250,9 +268,9 @@ def classroom():
             new_dict["View All"] = False
             new_dict |= c_d
 
-
     return render_template('gc.html', course_link=temp_list, c=new_dict, f = f)
 
 if __name__ == '__main__':
+
     app.run(debug=True, use_reloader=False)
 
