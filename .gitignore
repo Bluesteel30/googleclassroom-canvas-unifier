@@ -27,4 +27,5 @@ api.env
 .env
 client_secret.json
 token.json
+/Redundant/
 >>>>>>> fbbdec5 (Initial commit for the Canvas Classroom unifier I made)
