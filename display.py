@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from app import *
+from logic import *
 import requests
 app = Flask(__name__)
 
