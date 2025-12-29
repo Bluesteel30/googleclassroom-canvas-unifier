@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 </head>
+
 <body style="background-color:#282b2b;">
+    <!--This handles the creation of the website header with links back to the homepage and the classroom only section.-->
     <div class="mb-4">
     <nav class="navbar fixed-top" style="background-color: #f3f2f5;" data-bs-theme="dark">
     <div class="container-fluid justify-content-start">
@@ -15,8 +18,12 @@
     <a class="navbar-brand" href="/classroom" role="link" style="color: #282b2b;">Classroom</a>
     <div class="dropdown">
     
+  <!-- This creates a dropdown menu for the user to filter which course they see-->
   <form method="POST" action="/canvas">
   <select class="form-select form-select-sm custom-select" name="course" aria-label="Filter By Class" style="background-color: #f3f2f5;color: #282b2b;" onchange="this.form.submit()">
+    <!-- f is used to see if a filter is already being applied so that the current filter is displayed. Previously when applied it would function but wouldn't say which filter was applied you could tell by the assignments but it wasn't optimal-->
+    <!-- Iterates through c to get all the courses -->
+    <!-- the is_canvas checks if the course in c is a canvas course as this is the canvas only webpage so only canvas should be displayed-->
     {% if f == "" %}
       <option selected disabled>Filter By Class</option>
       {% for course, is_canvas in c.items() %}
@@ -48,8 +55,9 @@
 
 
 
-
+    <!-- This sections handles the displaying of the assignments -->
     <div class="row row-cols-1 row-cols-md-3 g-4 pain">
+      <!-- itereates through every assignment then validates that it is a canvas assignment -->
     {% for assignment in course_link %}
         {% if assignment['is_canvas'] %}
             <div class="col">
@@ -63,6 +71,7 @@
                 </h6>
                 <p>
                   <span class="badge text-bg-secondary">
+                    <!-- Displays the due date in the american formate if there is one present otherwise says No Due Date-->
                     {% if assignment['due_at'] != "No Due Date" %}
                       {{   assignment['due_at'][5:7] +"/" + assignment['due_at'][8:10] +"/" + assignment['due_at'][0:4]}}, {{ assignment['workflow_state'] }}
                     {% else %}
@@ -70,6 +79,7 @@
                     {% endif %}
                   </span>
                 </p>
+                <!-- link to the actual assignment on canvas -->
                 <a href="https://canvas.instructure.com/courses/{{ assignment['course_id'] }}/assignments/{{ assignment['id'] }}" class="btn btn-warning">
                   View on Canvas
                 </a>
