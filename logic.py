@@ -1,12 +1,12 @@
-import requests
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-import os
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+import requests
 from datetime import datetime
 from dotenv import load_dotenv
 import pickle
+import os
 
 
 current = False
@@ -140,7 +140,7 @@ if current:
         submissions = submission.get('studentSubmissions', [])
         i['submission'] = submissions[0] if submissions else None
         if i['submission']['state'] == 'CREATED':
-            i['submission']['state'] = 'unsubmitted'
+            i['submission']['state'] = 'Unsubmitted'
     def parse_due_date(assignment):
         due = assignment.get('due_at')
         if due and due != "No Due Date":
@@ -184,14 +184,3 @@ else:
 
     with open('data.pkl', 'rb') as f:  # 'rb' = read binary
         total_list = pickle.load(f)
-
-
-
-
-
-
-
-
-
-
-
