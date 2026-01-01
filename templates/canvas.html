@@ -68,9 +68,9 @@
                   <span class="badge text-bg-secondary">
                     <!-- Displays the due date in the american formate if there is one present otherwise says No Due Date-->
                     {% if assignment['due_at'] != "No Due Date" %}
-                      {{   assignment['due_at'][5:7] +"/" + assignment['due_at'][8:10] +"/" + assignment['due_at'][0:4]}}, {{ assignment['workflow_state'] }}
+                      {{   assignment['due_at'][5:7] +"/" + assignment['due_at'][8:10] +"/" + assignment['due_at'][0:4]}}, {{ assignment['workflow_state'] }}, {{ assignment['grade']}}
                     {% else %}
-                      {{ assignment['due_at'] }}, {{ assignment['workflow_state'] }}
+                      {{ assignment['due_at'] }}, {{ assignment['workflow_state'] }}, {{ assignment['grade']}}
                     {% endif %}
                   </span>
                 </p>

@@ -57,6 +57,13 @@ if call_apis:
                 submission = assignment.get('submission') or {}
                 workflow_state = submission.get('workflow_state', 'Unsubmitted')
                 due_date = assignment.get('due_at') or "No Due Date"
+                grade = submission.get('grade','Not Yet Graded')
+                if  (grade == None):
+                    grade = 'Not Yet Graded'
+                if grade != 'Not Yet Graded':
+                    grade += " Pts"
+
+
                 Canvas_data=({
                     'name': assignment['name'],
                     'due_at': due_date,
@@ -64,7 +71,8 @@ if call_apis:
                     'id': assignment['id'],
                     'course_id': course['id'],
                     'course_name': course['name'],
-                    'is_canvas' : True
+                    'is_canvas' : True,
+                    'grade' : grade
 
             })
                 canvas_assignments.append(Canvas_data)
