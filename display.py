@@ -16,16 +16,16 @@ def home():
     course_name = request.form.get("course")
     if not course_name or course_name == "View All":
 
-        return render_template('index.html', course_link=total_list, c=c_d, f = f)
+        return render_template('unified.html', course_link=total_list, c=course_dictonary, f = f)
 
     for i in total_list:
         if i['course_name'] == course_name:
             f = course_name
             temp_list.append(i)
             new_dict["View All"] = True
-            new_dict |= c_d
+            new_dict |= course_dictonary
             
-    return render_template('index.html', course_link=temp_list, c=new_dict, f = f)
+    return render_template('unified.html', course_link=temp_list, c=new_dict, f = f)
 
 #creates a page with the path /canvas which displays solely canvas asignments
 @app.route('/canvas', methods = ['GET','POST'])
@@ -40,14 +40,14 @@ def canvas():
 
     if not course_name or course_name == "View All":
 
-        return render_template('canvas.html', course_link=total_list, c=c_d, f = f)
+        return render_template('canvas.html', course_link=total_list, c=course_dictonary, f = f)
 
     for i in total_list:
         if i['course_name'] == course_name:
             f = course_name
             temp_list.append(i)
             new_dict["View All"] = True
-            new_dict |= c_d
+            new_dict |= course_dictonary
     return render_template('canvas.html', course_link=temp_list, c=new_dict, f = f)
 
 @app.route('/classroom', methods = ['GET','POST'])
@@ -64,16 +64,16 @@ def classroom():
 
     if not course_name or course_name == "View All":
 
-        return render_template('gc.html', course_link=total_list, c=c_d, f = f)
+        return render_template('classroom.html', course_link=total_list, c=course_dictonary, f = f)
 
     for i in total_list:
         if i['course_name'] == course_name:
             f = course_name
             temp_list.append(i)
             new_dict["View All"] = False
-            new_dict |= c_d
+            new_dict |= course_dictonary
 
-    return render_template('gc.html', course_link=temp_list, c=new_dict, f = f)
+    return render_template('classroom.html', course_link=temp_list, c=new_dict, f = f)
 
 if __name__ == '__main__':
 

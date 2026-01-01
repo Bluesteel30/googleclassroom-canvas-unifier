@@ -9,28 +9,28 @@ import pickle
 import os
 
 
-current = False
-if current:
+call_apis = True
+if call_apis:
     load_dotenv("api.env")
-    api = os.getenv('API_KEY')
+    canvas_api_key = os.getenv('API_KEY')
     base_url = "https://canvas.instructure.com/api/v1/"
     course_link = {}
     headers = {
-        "Authorization": "Bearer " + api
+        "Authorization": "Bearer " + canvas_api_key
         }
     endpoint = "courses"
-    response = requests.get(base_url+endpoint, headers=headers)
+    canvas_response = requests.get(base_url+endpoint, headers=headers)
 
 
-    total_list = []
-    c_d = {}
-    if response.status_code == 200:
-        courses = response.json()
+    canvas_assignments = []
+    course_dictonary = {}
+    if canvas_response.status_code == 200:
+        courses = canvas_response.json()
         for course in courses:
-            c_d[course['name']] = True
+            course_dictonary[course['name']] = True
             endpoint = "courses/"+str(course['id'])+"/assignments?include[]=submission&order_by=due_at"
             response = requests.get(base_url+endpoint, headers=headers)
-            course_assignments = []
+            course_assignments_canvas = []
             url = base_url + endpoint
 
             while url: # Continues to get each page of data from Canvas until it gets everything
@@ -39,7 +39,7 @@ if current:
                     break  
 
                 data = aresponse.json()
-                course_assignments.extend(data)
+                course_assignments_canvas.extend(data)
 
                 # Handle pagination
                 link = aresponse.headers.get('Link')
@@ -53,7 +53,7 @@ if current:
                 url = next_url  # If next_url is None, loop stops
 
             # Now process assignments
-            for assignment in course_assignments:
+            for assignment in course_assignments_canvas:
                 submission = assignment.get('submission') or {}
                 workflow_state = submission.get('workflow_state', 'Unsubmitted')
                 due_date = assignment.get('due_at') or "No Due Date"
@@ -67,7 +67,7 @@ if current:
                     'is_canvas' : True
 
             })
-                total_list.append(Canvas_data)
+                canvas_assignments.append(Canvas_data)
 
     else:
         print("Error:", response.status_code)
@@ -102,17 +102,17 @@ if current:
 
     service = build('classroom', 'v1', credentials=creds)
 
-    # List all courses
+    # List all classroom classes
     results = service.courses().list().execute()
     courses = results.get('courses', [])
     link = {}
-    every_assignment = []
+    classroom_assignments = []
     for course in courses:
         print(course['name'])
-        c_d[course['name']] = False
+        course_dictonary[course['name']] = False
         course_id = course['id']
         link[course_id] = course['name']
-        assignments = []
+        course_assignments_classroom = []
         page_token = None
         while True:
             response = service.courses().courseWork().list(
@@ -121,26 +121,27 @@ if current:
                 pageToken=page_token
             ).execute()
             
-            assignments.extend(response.get('courseWork', []))
+            course_assignments_classroom.extend(response.get('courseWork', []))
             
             page_token = response.get('nextPageToken')
             if not page_token:
                 break  # No more pages
-        every_assignment.extend(assignments)
+        classroom_assignments.extend(course_assignments_classroom)
 
         
-    for i in every_assignment:
+    for assignment in classroom_assignments:
         submission = service.courses().courseWork().studentSubmissions().list(
-        courseId = i['courseId'],
-        courseWorkId = i['id'],
+        courseId = assignment['courseId'],
+        courseWorkId = assignment['id'],
         userId='me'
         ).execute()
-        i['is_canvas'] = False 
-        i['course_name'] = link[i['courseId']]
+        assignment['is_canvas'] = False 
+        assignment['course_name'] = link[assignment['courseId']]
         submissions = submission.get('studentSubmissions', [])
-        i['submission'] = submissions[0] if submissions else None
-        if i['submission']['state'] == 'CREATED':
-            i['submission']['state'] = 'Unsubmitted'
+        assignment['submission'] = submissions[0] if submissions else None
+        if assignment['submission']['state'] == 'CREATED':
+            assignment['submission']['state'] = 'Unsubmitted'
+
     def parse_due_date(assignment):
         due = assignment.get('due_at')
         if due and due != "No Due Date":
@@ -169,18 +170,18 @@ if current:
         return datetime.now()
 
 
-    total_list.extend(every_assignment)
+    total_list = canvas_assignments + classroom_assignments
     total_list.sort(key=parse_due_date, reverse=True)  # Latest first
 
-if current:
+if call_apis:
     with open('c_d.pkl', 'wb') as f:
-        pickle.dump(c_d, f)
+        pickle.dump(course_dictonary, f)
 
     with open('data.pkl', 'wb') as f:
         pickle.dump(total_list, f)
 else:
     with open('c_d.pkl', 'rb') as f:  # 'rb' = read binary
-        c_d = pickle.load(f)
+        course_dictonary = pickle.load(f)
 
     with open('data.pkl', 'rb') as f:  # 'rb' = read binary
         total_list = pickle.load(f)
