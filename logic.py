@@ -141,6 +141,8 @@ if call_apis:
         assignment['submission'] = submissions[0] if submissions else None
         if assignment['submission']['state'] == 'CREATED':
             assignment['submission']['state'] = 'Unsubmitted'
+        if assignment['submission']['state'] == 'TURNED_IN':
+            assignment['submission']['state'] = 'Submitted'
 
     def parse_due_date(assignment):
         due = assignment.get('due_at')
