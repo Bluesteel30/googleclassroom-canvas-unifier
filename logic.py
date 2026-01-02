@@ -9,7 +9,7 @@ import pickle
 import os
 
 
-call_apis = True
+call_apis = False
 if call_apis:
     load_dotenv("api.env")
     canvas_api_key = os.getenv('API_KEY')
@@ -61,7 +61,7 @@ if call_apis:
                 if  (grade == None):
                     grade = 'Not Yet Graded'
                 if grade != 'Not Yet Graded':
-                    grade += " Pts"
+                    grade = "Score: " + grade + " Pts"
 
 
                 Canvas_data=({
