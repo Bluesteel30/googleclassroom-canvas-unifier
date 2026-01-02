@@ -1,7 +1,32 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response, redirect
 from logic import *
 import requests
+
+
+first = ""
 app = Flask(__name__)
+
+
+
+
+
+
+@app.route('/toggle-theme', methods = ['GET','POST'])
+
+def toggle_theme():
+    light = request.cookies.get("light_mode", "off")
+    print(light)
+    resp = make_response(redirect(request.referrer or "/canvas"))
+    new_value = "off" if light == "on" else "on"
+    if light == "on" :   
+        resp.set_cookie("light_mode",new_value ,max_age=3600)
+    else:
+        resp.set_cookie("light_mode", new_value ,max_age=3600)
+    return resp
+    
+
+
+
 
 
 #creates a page which is acessed through the / path  this is the homepage which displays the unified assignments
@@ -9,6 +34,7 @@ app = Flask(__name__)
 
 def home():
     f = ""
+    light = request.cookies.get("light_mode", "off") 
     new_dict = dict()
     if "View All" in new_dict:
         del new_dict["View All"]
@@ -16,7 +42,7 @@ def home():
     course_name = request.form.get("course")
     if not course_name or course_name == "View All":
 
-        return render_template('unified.html', course_link=total_list, c=course_dictonary, f = f)
+        return render_template('unified.html', course_link=total_list, c=course_dictonary, f = f, light = light)
 
     for i in total_list:
         if i['course_name'] == course_name:
@@ -25,22 +51,28 @@ def home():
             new_dict["View All"] = True
             new_dict |= course_dictonary
             
-    return render_template('unified.html', course_link=temp_list, c=new_dict, f = f)
+    return render_template('unified.html', course_link=temp_list, c=new_dict, f = f, light = light)
+
+
+
+
+
 
 #creates a page with the path /canvas which displays solely canvas asignments
 @app.route('/canvas', methods = ['GET','POST'])
 
+
 def canvas():
     f = ""
+    light = request.cookies.get("light_mode", "off") 
     new_dict = dict()
     if "View All" in new_dict:
         del new_dict["View All"]
     temp_list = []
     course_name = request.form.get("course")
-
     if not course_name or course_name == "View All":
 
-        return render_template('canvas.html', course_link=total_list, c=course_dictonary, f = f)
+        return render_template('canvas.html', course_link=total_list, c=course_dictonary, f = f, light = light, first = first)
 
     for i in total_list:
         if i['course_name'] == course_name:
@@ -48,13 +80,14 @@ def canvas():
             temp_list.append(i)
             new_dict["View All"] = True
             new_dict |= course_dictonary
-    return render_template('canvas.html', course_link=temp_list, c=new_dict, f = f)
+    return render_template('canvas.html', course_link=temp_list, c=new_dict, f = f, light = light)
 
 @app.route('/classroom', methods = ['GET','POST'])
 
 #creates a page with the path /classroom which displays solely classroom asignments
 def classroom():
     f = ""
+    light = request.cookies.get("light_mode", "off") 
     new_dict = dict()
     if "View All" in new_dict:
         del new_dict["View All"]
@@ -64,7 +97,7 @@ def classroom():
 
     if not course_name or course_name == "View All":
 
-        return render_template('classroom.html', course_link=total_list, c=course_dictonary, f = f)
+        return render_template('classroom.html', course_link=total_list, c=course_dictonary, f = f, light = light)
 
     for i in total_list:
         if i['course_name'] == course_name:
@@ -73,7 +106,7 @@ def classroom():
             new_dict["View All"] = False
             new_dict |= course_dictonary
 
-    return render_template('classroom.html', course_link=temp_list, c=new_dict, f = f)
+    return render_template('classroom.html', course_link=temp_list, c=new_dict, f = f, light = light)
 
 if __name__ == '__main__':
 
