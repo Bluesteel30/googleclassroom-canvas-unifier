@@ -70,9 +70,11 @@
 
               </span>
             </p>
-            <a href="https://canvas.instructure.com/courses/{{ assignment['course_id'] }}/assignments/{{ assignment['id'] }}" class="btn btn-warning">
-              View on Canvas
-            </a>
+            <h4>
+                <a href="https://canvas.instructure.com/courses/{{ assignment['course_id'] }}/assignments/{{ assignment['id'] }}" class="btn btn-warning badge text-dark">
+                  View on Canvas
+                </a>
+            </h4>
           </div>
         </div>
       {% else %}
@@ -97,7 +99,11 @@
                 </span>
               </p>
             {% endif %}
-            <a href="{{ assignment['alternateLink'] }}" class="btn btn-warning">View on Classroom</a>
+            <h4>
+              <a href="{{ assignment['alternateLink'] }}" class="btn btn-warning badge text-dark">
+              View on Classroom
+              </a>
+            </h4>
           </div>
         </div>
       {% endif %}
