@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 </head>
+{% if light == "off" %}
 <body style="background-color:#282b2b;">
-    <!--This handles the creation of the website header with links back to the homepage and the classroom only section.-->
+  {% else %}
+<body style="background-color:#f0f2f2;">
+{% endif %}    <!--This handles the creation of the website header with links back to the homepage and the classroom only section.-->
     <div class="mb-4">
     <nav class="navbar fixed-top" style="background-color: #f3f2f5;" data-bs-theme="dark">
     <div class="container-fluid justify-content-start">
@@ -42,9 +45,16 @@
     {% endif %}
   </select>
 
-</form>
 
-</div>
+  </form>
+
+  </div>
+  <div class="form-check form-switch" style = "margin-left: 20px;">
+      <form method="POST" action="/toggle-theme"> 
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {% if light == "on" %} checked {% endif %} name = "light_mode" value = "on" onchange="this.form.submit()">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Light Mode</label>
+      </form>
+  </div>
     </div>
     </nav>
     </div>
