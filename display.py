@@ -3,10 +3,21 @@ from logic import *
 import requests
 
 
+
+TEMPLATES = {
+    '/canvas' : 'canvas.html',
+    '/classroom' : 'classroom.html',
+    '/' : 'unified.html'
+
+
+
+}
+
+
+
+
 first = ""
 app = Flask(__name__)
-
-
 
 
 
@@ -16,15 +27,42 @@ app = Flask(__name__)
 def toggle_theme():
     light = request.cookies.get("light_mode", "off")
     print(light)
-    resp = make_response(redirect(request.referrer or "/canvas"))
+    resp = make_response(redirect(request.referrer or "/unified"))
     new_value = "off" if light == "on" else "on"
     if light == "on" :   
         resp.set_cookie("light_mode",new_value ,max_age=3600)
     else:
         resp.set_cookie("light_mode", new_value ,max_age=3600)
     return resp
-    
 
+@app.route('/apply-filter', methods = ['GET','POST'])
+
+def apply_filter():
+    f = ""
+    path = request.path
+    template = TEMPLATES.get(path, "unified.html")
+    light = request.cookies.get("light_mode", "off")
+    course_name = request.args.get("course", "")
+    new_dict = dict()
+    if "View All" in new_dict:
+        del new_dict["View All"]
+    temp_list = []
+    if not course_name or course_name == "View All":
+        return render_template(template, course_link=total_list, c=course_dictonary, f = f, light = light)
+    for i in total_list:
+        if i['course_name'] == course_name:
+            f = course_name
+            temp_list.append(i)
+            new_dict["View All"] = True
+            new_dict |= course_dictonary
+    return render_template(template, course_link=temp_list, c=new_dict, f = f, light = light)
+
+
+
+
+
+
+    
 
 
 
@@ -35,24 +73,11 @@ def toggle_theme():
 def home():
     f = ""
     light = request.cookies.get("light_mode", "off") 
-    new_dict = dict()
-    if "View All" in new_dict:
-        del new_dict["View All"]
-    temp_list = []
-    course_name = request.form.get("course")
+    course_name = request.args.get("course", "")
     if not course_name or course_name == "View All":
-
         return render_template('unified.html', course_link=total_list, c=course_dictonary, f = f, light = light)
-
-    for i in total_list:
-        if i['course_name'] == course_name:
-            f = course_name
-            temp_list.append(i)
-            new_dict["View All"] = True
-            new_dict |= course_dictonary
             
-    return render_template('unified.html', course_link=temp_list, c=new_dict, f = f, light = light)
-
+    return apply_filter()
 
 
 
@@ -65,22 +90,11 @@ def home():
 def canvas():
     f = ""
     light = request.cookies.get("light_mode", "off") 
-    new_dict = dict()
-    if "View All" in new_dict:
-        del new_dict["View All"]
-    temp_list = []
-    course_name = request.form.get("course")
+    course_name = request.args.get("course", "")
     if not course_name or course_name == "View All":
-
-        return render_template('canvas.html', course_link=total_list, c=course_dictonary, f = f, light = light, first = first)
-
-    for i in total_list:
-        if i['course_name'] == course_name:
-            f = course_name
-            temp_list.append(i)
-            new_dict["View All"] = True
-            new_dict |= course_dictonary
-    return render_template('canvas.html', course_link=temp_list, c=new_dict, f = f, light = light)
+        return render_template('canvas.html', course_link=total_list, c=course_dictonary, f = f, light = light)
+            
+    return apply_filter()
 
 @app.route('/classroom', methods = ['GET','POST'])
 
@@ -88,25 +102,11 @@ def canvas():
 def classroom():
     f = ""
     light = request.cookies.get("light_mode", "off") 
-    new_dict = dict()
-    if "View All" in new_dict:
-        del new_dict["View All"]
-
-    temp_list = []
-    course_name = request.form.get("course")
-
+    course_name = request.args.get("course", "")
     if not course_name or course_name == "View All":
-
         return render_template('classroom.html', course_link=total_list, c=course_dictonary, f = f, light = light)
-
-    for i in total_list:
-        if i['course_name'] == course_name:
-            f = course_name
-            temp_list.append(i)
-            new_dict["View All"] = False
-            new_dict |= course_dictonary
-
-    return render_template('classroom.html', course_link=temp_list, c=new_dict, f = f, light = light)
+            
+    return apply_filter()
 
 if __name__ == '__main__':
 
