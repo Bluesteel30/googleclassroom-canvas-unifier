@@ -9,7 +9,7 @@ import pickle
 import os
 
 
-call_apis = False
+call_apis = True
 if call_apis:
     load_dotenv("api.env")
     canvas_api_key = os.getenv('API_KEY')
@@ -56,6 +56,8 @@ if call_apis:
             for assignment in course_assignments_canvas:
                 submission = assignment.get('submission') or {}
                 workflow_state = submission.get('workflow_state', 'Unsubmitted')
+                if workflow_state ==  "pending_review":
+                    workflow_state = "Pending Review"
                 due_date = assignment.get('due_at') or "No Due Date"
                 grade = submission.get('grade','Not Yet Graded')
                 if  (grade == None):
@@ -79,8 +81,6 @@ if call_apis:
 
     else:
         print("Error:", response.status_code)
-
-
 
 
     SCOPES = [
@@ -151,6 +151,7 @@ if call_apis:
             assignment['submission']['state'] = 'Unsubmitted'
         if assignment['submission']['state'] == 'TURNED_IN':
             assignment['submission']['state'] = 'Submitted'
+
 
     def parse_due_date(assignment):
         due = assignment.get('due_at')
