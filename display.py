@@ -8,26 +8,19 @@ TEMPLATES = {
     '/canvas' : 'canvas.html',
     '/classroom' : 'classroom.html',
     '/' : 'unified.html'
-
-
-
 }
 
 
-
-
-first = ""
 app = Flask(__name__)
 
 
-
-
+#Handles the light switch input and stores it as a cookie
 @app.route('/toggle-theme', methods = ['GET','POST'])
 
 def toggle_theme():
     light = request.cookies.get("light_mode", "off")
     print(light)
-    resp = make_response(redirect(request.referrer or "/unified"))
+    resp = make_response(redirect(request.referrer or "/"))
     new_value = "off" if light == "on" else "on"
     if light == "on" :   
         resp.set_cookie("light_mode",new_value ,max_age=3600)
@@ -35,6 +28,7 @@ def toggle_theme():
         resp.set_cookie("light_mode", new_value ,max_age=3600)
     return resp
 
+#Handles the application of filters to view only a select class or course
 @app.route('/apply-filter', methods = ['GET','POST'])
 
 def apply_filter():
@@ -58,15 +52,6 @@ def apply_filter():
     return render_template(template, course_link=temp_list, c=new_dict, f = f, light = light)
 
 
-
-
-
-
-    
-
-
-
-
 #creates a page which is acessed through the / path  this is the homepage which displays the unified assignments
 @app.route('/', methods = ['GET','POST'])
 
@@ -80,12 +65,8 @@ def home():
     return apply_filter()
 
 
-
-
-
 #creates a page with the path /canvas which displays solely canvas asignments
 @app.route('/canvas', methods = ['GET','POST'])
-
 
 def canvas():
     f = ""
@@ -96,9 +77,10 @@ def canvas():
             
     return apply_filter()
 
-@app.route('/classroom', methods = ['GET','POST'])
 
 #creates a page with the path /classroom which displays solely classroom asignments
+@app.route('/classroom', methods = ['GET','POST'])
+
 def classroom():
     f = ""
     light = request.cookies.get("light_mode", "off") 
