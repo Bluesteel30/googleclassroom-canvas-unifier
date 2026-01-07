@@ -13,13 +13,31 @@
 <body style="background-color:#f0f2f2;">
 {% endif %}    <!--This handles the creation of the website header with links back to the homepage and the classroom only section.-->
 	<div class="mb-4">
-		<nav class="navbar fixed-top" style="background-color: #f3f2f5;" data-bs-theme="dark">
-			<div class="container-fluid justify-content-start">
-				<a class="navbar-brand" href="/canvas" role="link" style="color: #282b2b;">Canvas</a> 
-				<a class="navbar-brand" href="/classroom" role="link" style="color: #282b2b;">Classroom</a>
-				<div class="dropdown">
-					<form method="GET" action="/">
-						<select class="form-select form-select-sm custom-select" name="course" style="background-color: #f3f2f5;color: #282b2b;" aria-label="Filter By Class" onchange="this.form.submit()">
+		{% if light == "off" %}
+			<nav class="navbar fixed-top" style="background-color: #f0f2f2;" data-bs-theme="dark">
+			{% else %}
+			<nav class="navbar fixed-top" style="background-color: #282b2b;" data-bs-theme="dark">
+			{% endif %}
+				<div class="container-fluid justify-content-start">
+					{% if light == "off" %}
+					<a class="navbar-brand" href="/classroom" role="link" style="color: #282b2b;">Classroom</a>
+					<a class="navbar-brand" href="/canvas" role="link" style="color: #282b2b;">Canvas</a>
+
+					<div class="dropdown">
+						<!-- This creates a dropdown menu for the user to filter which course they see-->
+						<form method="GET" action="/">
+						
+							<select class="form-select form-select-sm custom-select" name="course" style="background-color: #f3f2f5;color: #282b2b;" aria-label="Filter By Class" onchange="this.form.submit()">
+					{% else %}
+					<a class="navbar-brand" href="/canvas" role="link" style="color: #f0f2f2;">Home</a>
+					<a class="navbar-brand" href="/classroom" role="link" style="color: #f0f2f2;">Classroom</a>
+
+					<div class="dropdown">
+						<!-- This creates a dropdown menu for the user to filter which course they see-->
+						<form method="GET" action="/">
+						
+							<select class="form-select form-select-sm custom-select" name="course" style="background-color: #282b2b;color: #f0f2f2;" aria-label="Filter By Class" onchange="this.form.submit()">
+					{% endif %}
 							<!-- f is used to see if a filter is already being applied so that the current filter is displayed. Previously when applied it would function but wouldn't say which filter was applied you could tell by the assignments but it wasn't optimal-->
 							<!-- Iterates through c to get all the courses both canvas and classroom-->
 							{% if f == "" %}
@@ -40,8 +58,8 @@
 				</div>
 				<div class="form-check form-switch" style = "margin-left: 20px;">
 					<form method="POST" action="/toggle-theme"> 
-						<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {% if light == "on" %} checked {% endif %} name = "light_mode" value = "on" onchange="this.form.submit()">
-						<label class="form-check-label" for="flexSwitchCheckDefault">Light Mode</label>
+							<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {% if light == "on" %} checked {% endif %} name = "light_mode" value = "on" onchange="this.form.submit()">
+							<label class="form-check-label" for="flexSwitchCheckDefault" {% if light == "on" %} style="color: #f0f2f2;" {% endif %}>Light Mode</label>
 					</form>
 				</div>
 			</div>
