@@ -2,8 +2,9 @@ from flask import Flask, render_template, request, make_response, redirect
 from logic import *
 import requests
 
-
-
+x = input("Enter 'Y' if you want to update data")
+if x == 'Y':
+    updateData()
 TEMPLATES = {
     '/canvas' : 'canvas.html',
     '/classroom' : 'classroom.html',
@@ -23,9 +24,9 @@ def toggle_theme():
     resp = make_response(redirect(request.referrer or "/"))
     new_value = "off" if light == "on" else "on"
     if light == "on" :   
-        resp.set_cookie("light_mode",new_value ,max_age=3600)
+        resp.set_cookie("light_mode",new_value ,max_age=60*60*24)
     else:
-        resp.set_cookie("light_mode", new_value ,max_age=3600)
+        resp.set_cookie("light_mode", new_value ,max_age=60*60*24)
     return resp
 
 #Handles the application of filters to view only a select class or course
@@ -52,7 +53,7 @@ def apply_filter():
     return render_template(template, course_link=temp_list, c=new_dict, f = f, light = light)
 
 
-#creates a page which is acessed through the / path  this is the homepage which displays the unified assignments
+#Displays all assignments
 @app.route('/', methods = ['GET','POST'])
 
 def home():
@@ -65,7 +66,7 @@ def home():
     return apply_filter()
 
 
-#creates a page with the path /canvas which displays solely canvas asignments
+#cDdisplays solely canvas asignments
 @app.route('/canvas', methods = ['GET','POST'])
 
 def canvas():
@@ -78,7 +79,7 @@ def canvas():
     return apply_filter()
 
 
-#creates a page with the path /classroom which displays solely classroom asignments
+#Displays solely classroom asignments
 @app.route('/classroom', methods = ['GET','POST'])
 
 def classroom():

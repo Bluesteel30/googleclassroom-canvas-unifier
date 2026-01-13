@@ -9,8 +9,7 @@ import pickle
 import os
 
 
-call_apis = True
-if call_apis:
+def updateData()
     load_dotenv("api.env")
     canvas_api_key = os.getenv('API_KEY')
     base_url = "https://canvas.instructure.com/api/v1/"
@@ -180,9 +179,9 @@ if call_apis:
 
         return datetime.now()
 
-
     total_list = canvas_assignments + classroom_assignments
     total_list.sort(key=parse_due_date, reverse=True)  # Latest first
+
 
 if call_apis:
     with open('c_d.pkl', 'wb') as f:
