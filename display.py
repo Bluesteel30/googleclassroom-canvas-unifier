@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, make_response, redirect
+from flask import Flask, render_template, request, make_response, redirect, g
 from logic import *
 import requests
+import time
+
 
 x = input("Enter 'Y' if you want to update data")
 if x == 'Y':
@@ -13,6 +15,33 @@ TEMPLATES = {
 
 
 app = Flask(__name__)
+
+
+@app.before_request
+def refresh_list():
+    raw = request.cookies.get("last_ran")
+    
+    try:
+        last_ran = float(raw)
+    except(TypeError, ValueError):
+        last_ran = None
+
+    current_time = time.time()
+
+    if last_ran is None or current_time-last_ran > 10*60:
+        updateData()
+        g.updated = current_time
+    if hasattr(g, "updated"):
+        print("UPDATED AT", g.updated)
+    else:
+        print("NO UPDATE THIS REQUEST")
+
+    
+@app.after_request
+def store_last_ran(response):
+    if hasattr(g, "updated"):
+        response.set_cookie("last_ran", str(g.updated),max_age=60*20)
+    return response
 
 
 #Handles the light switch input and stores it as a cookie
@@ -33,6 +62,7 @@ def toggle_theme():
 @app.route('/apply-filter', methods = ['GET','POST'])
 
 def apply_filter():
+    course_dictonary, total_list = loadAssignments()
     f = ""
     path = request.path
     template = TEMPLATES.get(path, "unified.html")
@@ -57,6 +87,7 @@ def apply_filter():
 @app.route('/', methods = ['GET','POST'])
 
 def home():
+    course_dictonary, total_list = loadAssignments()
     f = ""
     light = request.cookies.get("light_mode", "off") 
     course_name = request.args.get("course", "")
@@ -70,6 +101,7 @@ def home():
 @app.route('/canvas', methods = ['GET','POST'])
 
 def canvas():
+    course_dictonary, total_list = loadAssignments()
     f = ""
     light = request.cookies.get("light_mode", "off") 
     course_name = request.args.get("course", "")
@@ -83,6 +115,7 @@ def canvas():
 @app.route('/classroom', methods = ['GET','POST'])
 
 def classroom():
+    course_dictonary, total_list = loadAssignments()
     f = ""
     light = request.cookies.get("light_mode", "off") 
     course_name = request.args.get("course", "")
@@ -92,6 +125,5 @@ def classroom():
     return apply_filter()
 
 if __name__ == '__main__':
-
     app.run(debug=True, use_reloader=False)
 

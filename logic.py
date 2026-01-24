@@ -9,7 +9,7 @@ import pickle
 import os
 
 
-def updateData()
+def updateData():
     load_dotenv("api.env")
     canvas_api_key = os.getenv('API_KEY')
     base_url = "https://canvas.instructure.com/api/v1/"
@@ -182,16 +182,17 @@ def updateData()
     total_list = canvas_assignments + classroom_assignments
     total_list.sort(key=parse_due_date, reverse=True)  # Latest first
 
-
-if call_apis:
     with open('c_d.pkl', 'wb') as f:
         pickle.dump(course_dictonary, f)
 
     with open('data.pkl', 'wb') as f:
         pickle.dump(total_list, f)
-else:
+
+
+def loadAssignments():
     with open('c_d.pkl', 'rb') as f:  # 'rb' = read binary
         course_dictonary = pickle.load(f)
 
     with open('data.pkl', 'rb') as f:  # 'rb' = read binary
-        total_list = pickle.load(f)
+            total_list = pickle.load(f)
+    return course_dictonary, total_list
