@@ -23,11 +23,11 @@
 				<div class="container-fluid justify-content-start">
 					{% if light == "off" %}
 					<a class="navbar-brand" href="/" role="link" style="color: #282b2b;">Home</a>
-					<a class="navbar-brand" href="/canvas" role="link" style="color: #282b2b;">Canvas</a>
+					<a class="navbar-brand" href="/classroom" role="link" style="color: #282b2b;">Classroom</a>
 
 					<div class="dropdown">
 						<!-- This creates a dropdown menu for the user to filter which course they see-->
-						<form method="GET" action="/classroom">
+						<form method="GET" action="/canvas">
 						
 							<select class="form-select form-select-sm custom-select" name="course" style="background-color: #f3f2f5;color: #282b2b;" aria-label="Filter By Class" onchange="this.form.submit()">
 					{% else %}
