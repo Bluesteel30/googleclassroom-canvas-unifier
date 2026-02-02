@@ -1,2 +1,23 @@
 # googleclassroom-canvas-unifier
-This is a project with the goal of unifying Canvas and Google Classroom. This problem stems from having all but one teacher using Classroom, and the other using Canvas. This creates an inconvience in checking nightly homework and this project aims to eliminate that. I started this project over the summer and am adding it to GitHub. It runs the backend with Python, which calls Google and Canvas' APIs and runs Flask. The HTML uses Jinja to handle the templating. There are three pages currently: the default 'unified' page /, /canvas, and /classroom. The homepage displays the unified assignments while the others display their distinct assignments to their portal. Display.py runs the front end with Flask and Logic.py runs the backend with python. It has the capabilities to filter by course and switch between light and dark mode.
+## Why this project?
+This is a project with the goal of unifying Canvas and Google Classroom so that their assignments can be displayed on a single platform. All of my teachers use Classroom with the exception of my Computer Science teacher Mr. Looney who uses Canvas. This created an inconvience in checking assignments as I would have to toggle between the two platforms each with their own account and password, which made checking for homework more tedious. This in turn made me more error prone as I was more likely to forget assignments. 
+
+## Features
+- Display Canvas Infastructure and Google Classroom assignments
+- Filter courses between individual courses and those soley on one platform or another
+- Reoccuringly auto update to see up to date information
+- Toggle between themes for light and dark
+- Uniquely linked assignments allowing for one-click access to more info
+
+## Tech Stack
+- Backend: Python, Flask
+- Templating: Jinja2
+- Frontend: HTML, CSS
+- Data: Pickle (.pkl)
+
+## Demo
+[▶️ Watch a short demo of the app](https://github.com/user-attachments/assets/876b8273-6324-4c0d-bc2f-48b4151b7fb7)
+
+## Status
+Work in progress. All features are functional; however, development is delayed by the requirements of Google Cloud in terms of their privacy policy.
+I am working to get it on a server, up until then it will must be run locally.
