@@ -1,6 +1,3 @@
-.example {
-  scrollbar-width: none; 
-}
 .text {
   display: block;
   width: 250px;
@@ -8,7 +5,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.pain {
+.scale {
   transform: scale(0.98);
   transform-origin: top center;
 }
@@ -28,3 +25,4 @@
 .m_title {
   text-transform: capitalize;
 }
+
