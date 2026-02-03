@@ -3,19 +3,13 @@ from logic import *
 import requests
 import time
 
-
-x = input("Enter 'Y' if you want to update data")
-if x == 'Y':
-    updateData()
 TEMPLATES = {
     '/canvas' : 'canvas.html',
     '/classroom' : 'classroom.html',
     '/' : 'unified.html'
 }
 
-
 app = Flask(__name__)
-
 
 @app.before_request
 def refresh_list():
@@ -97,7 +91,7 @@ def home():
     return apply_filter()
 
 
-#cDdisplays solely canvas asignments
+#Displays solely canvas asignments
 @app.route('/canvas', methods = ['GET','POST'])
 
 def canvas():

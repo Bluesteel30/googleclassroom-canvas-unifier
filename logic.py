@@ -14,15 +14,12 @@ def updateData():
     canvas_api_key = os.getenv('API_KEY')
     base_url = "https://canvas.instructure.com/api/v1/"
     course_link = {}
-    headers = {
-        "Authorization": "Bearer " + canvas_api_key
-        }
+    headers = {"Authorization": "Bearer " + canvas_api_key}
     endpoint = "courses"
     canvas_response = requests.get(base_url+endpoint, headers=headers)
-
-
     canvas_assignments = []
     course_dictonary = {}
+    
     if canvas_response.status_code == 200:
         courses = canvas_response.json()
         for course in courses:
