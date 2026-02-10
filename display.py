@@ -11,26 +11,22 @@ TEMPLATES = {
 
 app = Flask(__name__)
 
+"""Requests "last_ran" which is the last time the data has been updated. If it doesn't exist then it sets the 
+"last_ran" to NONE and then updates the data and sets g.updated to the current time
+"""
 @app.before_request
 def refresh_list():
     raw = request.cookies.get("last_ran")
-    
     try:
         last_ran = float(raw)
     except(TypeError, ValueError):
         last_ran = None
-
     current_time = time.time()
-
     if last_ran is None or current_time-last_ran > 10*60:
         updateData()
         g.updated = current_time
-    if hasattr(g, "updated"):
-        print("UPDATED AT", g.updated)
-    else:
-        print("NO UPDATE THIS REQUEST")
 
-    
+#Stores the update time as a cookie after the request is made
 @app.after_request
 def store_last_ran(response):
     if hasattr(g, "updated"):
@@ -38,7 +34,6 @@ def store_last_ran(response):
     return response
 
 
-#Handles the light switch input and stores it as a cookie
 @app.route('/toggle-theme', methods = ['GET','POST'])
 
 def toggle_theme():
@@ -52,7 +47,6 @@ def toggle_theme():
         resp.set_cookie("light_mode", new_value ,max_age=60*60*24)
     return resp
 
-#Handles the application of filters to view only a select class or course
 @app.route('/apply-filter', methods = ['GET','POST'])
 
 def apply_filter():
@@ -76,8 +70,6 @@ def apply_filter():
             new_dict |= course_dictonary
     return render_template(template, course_link=temp_list, c=new_dict, f = f, light = light)
 
-
-#Displays all assignments
 @app.route('/', methods = ['GET','POST'])
 
 def home():
@@ -90,8 +82,6 @@ def home():
             
     return apply_filter()
 
-
-#Displays solely canvas asignments
 @app.route('/canvas', methods = ['GET','POST'])
 
 def canvas():
@@ -104,8 +94,6 @@ def canvas():
             
     return apply_filter()
 
-
-#Displays solely classroom asignments
 @app.route('/classroom', methods = ['GET','POST'])
 
 def classroom():
