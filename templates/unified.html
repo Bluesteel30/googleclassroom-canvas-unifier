@@ -83,7 +83,7 @@
 							<span class="badge text-bg-primary">{{ assignment['course_name'] }}</span>
 						</h6>
 						<p>
-							<span class="badge text-bg-secondary">
+							<span class="badge text-bg-secondary text">
 								{% if assignment['due_at'] != "No Due Date" %}
 									{{   assignment['due_at'][5:7] +"/" + assignment['due_at'][8:10] +"/" + assignment['due_at'][0:4]}}, {{ assignment['workflow_state'] }}
 								{% else %}
@@ -103,13 +103,13 @@
 							<span class="badge text-bg-success text">{{ assignment['title'] }}</span>
 						</h5>
 						<h6 class="card-subtitle mb-2 text-body-secondary">
-							<span class="badge text-bg-primary">{{ assignment['course_name'] }}</span>
+							<span class="badge text-bg-primary text">{{ assignment['course_name'] }}</span>
 						</h6>
 						<p>
 						{% if assignment['due_at'] %}
-								<span class="badge text-bg-secondary">{{ assignment['due_at'].strftime("%m/%d/%Y") }}, {{ assignment['submission']['state'] }}</span>
+								<span class="badge text-bg-secondary text">{{ assignment['due_at'].strftime("%m/%d/%Y") }}, {{ assignment['submission']['state'] }}</span>
 						{% else %}
-								<span class="badge text-bg-secondary">No Due Date, {{ assignment['submission']['state'] }}</span>
+								<span class="badge text-bg-secondary text">No Due Date, {{ assignment['submission']['state'] }}</span>
 						{% endif %}
 						</p>
 						<h4>
