@@ -82,7 +82,8 @@
 	  {% for assignment in course_link %}
 		{% if assignment['is_canvas'] %}
 		  <div class="col">
-			<div class="card border-danger bg-transparent h-100">
+		  <a href="https://canvas.instructure.com/courses/{{ assignment['course_id'] }}/assignments/{{ assignment['id'] }}" class="text-decoration-none text-dark">
+			<div class="card border-danger bg-transparent card-hover h-100">
 			  <div class="card-body">
 				  <h5 class="card-title">
 					<span class="badge text-bg-danger text">{{ assignment['name'] }}</span>
@@ -102,12 +103,11 @@
 				  </p>
 				  <!-- link to the actual assignment on canvas -->
 				  <h4>
-					<a href="https://canvas.instructure.com/courses/{{ assignment['course_id'] }}/assignments/{{ assignment['id'] }}" class="btn btn-warning badge text-dark">
-					View on Canvas
-					</a>
+
 				  </h4>
 			  </div>
 			</div>
+		</a>
 			</div>
 		  {% endif %}
 	{% endfor %}

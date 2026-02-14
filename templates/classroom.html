@@ -86,7 +86,8 @@
 		{% for assignment in course_link %}
 			{% if assignment['is_canvas'] == False %}
 				<div class="col">
-					<div class="card border-success bg-transparent h-100">
+					<a href="{{ assignment['alternateLink'] }}">
+					<div class="card border-success bg-transparent card-hover h-100">
 						<div class="card-body">
 								<h5 class="card-title">
 									<span class="badge text-bg-success text">{{ assignment['title'] }}</span>
@@ -106,11 +107,9 @@
 										</span>
 									{% endif %}
 								</p>
-								<h4>
-									<a href="{{ assignment['alternateLink'] }}" class="btn btn-warning badge text-dark">View on Classroom</a>
-								</h4>
 						</div>
 					</div>
+				</a>
 				</div>
 
 			{% endif %}

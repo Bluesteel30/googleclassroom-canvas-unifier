@@ -74,7 +74,8 @@
 	{% for assignment in course_link %}
 		<div class="col">
 			{% if assignment['is_canvas'] %}
-				<div class="card border-danger bg-transparent h-100">
+				<div class="card border-danger bg-transparent card-hover h-100">
+					<a href="https://canvas.instructure.com/courses/{{ assignment['course_id'] }}/assignments/{{ assignment['id'] }}" class="text-decoration-none text-dark">
 					<div class="card-body">
 						<h5 class="card-title">
 							<span class="badge text-bg-danger text">{{ assignment['name'] }}</span>
@@ -91,13 +92,12 @@
 								{% endif %}
 							</span>
 						</p>
-						<h4>
-								<a href="https://canvas.instructure.com/courses/{{ assignment['course_id'] }}/assignments/{{ assignment['id'] }}" class="btn btn-warning badge text-dark">View on Canvas</a>
-						</h4>
 					</div>
+				</a>
 				</div>
 			{% else %}
-				<div class="card border-success bg-transparent h-100">
+				<div class="card border-success bg-transparent card-hover h-100">
+					<a href="{{ assignment['alternateLink'] }}">
 					<div class="card-body">
 						<h5 class="card-title">
 							<span class="badge text-bg-success text">{{ assignment['title'] }}</span>
@@ -112,10 +112,8 @@
 								<span class="badge text-bg-secondary text">No Due Date, {{ assignment['submission']['state'] }}</span>
 						{% endif %}
 						</p>
-						<h4>
-							<a href="{{ assignment['alternateLink'] }}" class="btn btn-warning badge text-dark">View on Classroom</a>
-						</h4>
 					</div>
+				</a>
 				</div>
 			{% endif %}
 		</div>
