@@ -16,7 +16,7 @@ This is a project with the goal of unifying Canvas and Google Classroom so that 
 - Data: Pickle (.pkl)
 
 ## Demo
-[▶️ Watch a short demo of the app](https://github.com/user-attachments/assets/876b8273-6324-4c0d-bc2f-48b4151b7fb7)
+[▶️ Watch a short demo of the app](https://github.com/user-attachments/assets/8e19b0f4-54a1-464c-b299-4a45306ef9b8)
 
 ## Status
 Work in progress. All features are functional; however, development is delayed by the requirements of Google Cloud in terms of their privacy policy.
