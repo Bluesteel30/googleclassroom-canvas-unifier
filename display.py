@@ -14,25 +14,27 @@ app = Flask(__name__)
 """Requests "last_ran" which is the last time the data has been updated. If it doesn't exist then it sets the 
 "last_ran" to NONE and then updates the data and sets g.updated to the current time
 """
-"""@app.before_request
-def refresh_list():
-    raw = request.cookies.get("last_ran")
-    try:
-        last_ran = float(raw)
-    except(TypeError, ValueError):
-        last_ran = None
-    current_time = time.time()
-    if last_ran is None or current_time-last_ran > 10*60:
-        updateData()
-        g.updated = current_time
+bypass = input("Enter 'N' to bypass update: ")
+if bypass != 'N':
+    @app.before_request
+    def refresh_list():
+        raw = request.cookies.get("last_ran")
+        try:
+            last_ran = float(raw)
+        except(TypeError, ValueError):
+            last_ran = None
+        current_time = time.time()
+        if last_ran is None or current_time-last_ran > 10*60:
+            updateData()
+            g.updated = current_time
 
-#Stores the update time as a cookie after the request is made
-@app.after_request
-def store_last_ran(response):
-    if hasattr(g, "updated"):
-        response.set_cookie("last_ran", str(g.updated),max_age=60*20)
-    return response
-"""
+    #Stores the update time as a cookie after the request is made
+    @app.after_request
+    def store_last_ran(response):
+        if hasattr(g, "updated"):
+            response.set_cookie("last_ran", str(g.updated),max_age=60*20)
+        return response
+    
 
 @app.route('/toggle-theme', methods = ['GET','POST'])
 
@@ -42,9 +44,9 @@ def toggle_theme():
     resp = make_response(redirect(request.referrer or "/"))
     new_value = "off" if light == "on" else "on"
     if light == "on" :   
-        resp.set_cookie("light_mode",new_value ,max_age=60*60*24)
+        resp.set_cookie("light_mode",new_value ,max_age=60*60*24*365)
     else:
-        resp.set_cookie("light_mode", new_value ,max_age=60*60*24)
+        resp.set_cookie("light_mode", new_value ,max_age=60*60*24*365)
     return resp
 
 @app.route('/apply-filter', methods = ['GET','POST'])
