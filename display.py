@@ -11,9 +11,6 @@ TEMPLATES = {
 
 app = Flask(__name__)
 
-"""Requests "last_ran" which is the last time the data has been updated. If it doesn't exist then it sets the 
-"last_ran" to NONE and then updates the data and sets g.updated to the current time
-"""
 bypass = input("Enter 'N' to bypass update: ")
 if bypass != 'N':
     @app.before_request
@@ -32,9 +29,8 @@ if bypass != 'N':
     @app.after_request
     def store_last_ran(response):
         if hasattr(g, "updated"):
-            response.set_cookie("last_ran", str(g.updated),max_age=60*20)
+            response.set_cookie("last_ran", str(g.updated),max_age=60*60*24)
         return response
-    
 
 @app.route('/toggle-theme', methods = ['GET','POST'])
 
