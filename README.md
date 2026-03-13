@@ -20,4 +20,4 @@ This is a project with the goal of unifying Canvas and Google Classroom so that 
 
 ## Status
 Work in progress. All features are functional; however, development is delayed by the requirements of Google Cloud in terms of their privacy policy.
-I am working to get it on a server, up until then it will must be run locally.
+I am working to get it on a server, up until then it will must be run locally. One of the limiting factors is also the school's Google Workspace. I can't link it to my school acount limiting the functionality of the app. This is due to the settings the adminstrater has set.
