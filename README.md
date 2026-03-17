@@ -1,4 +1,4 @@
-# googleclassroom-canvas-unifier
+# Google Classroom - Canvas Unifier
 ## Why this project?
 This is a project with the goal of unifying Canvas and Google Classroom so that their assignments can be displayed on a single platform. All of my teachers use Classroom with the exception of my Computer Science teacher Mr. Looney who uses Canvas. This created an inconvience in checking assignments as I would have to toggle between the two platforms each with their own account and password, which made checking for homework more tedious. This in turn made me more error prone as I was more likely to forget assignments. 
 
