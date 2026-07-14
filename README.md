@@ -1,4 +1,8 @@
 # Google Classroom - Canvas Unifier
+
+## Update
+This project is no longer in development and is obsolete due to outside factors. Instructure, Canvas' creator, shut down its free playfom (What this is based off) following hackings that occured in May 2026. It may still work, if a user has an institutional account from their college, but I don't have the capability to test that.
+
 ## Why this project?
 This is a project with the goal of unifying Canvas and Google Classroom so that their assignments can be displayed on a single platform. All of my teachers use Classroom with the exception of my Computer Science teacher Mr. Looney who uses Canvas. This created an inconvience in checking assignments as I would have to toggle between the two platforms each with their own account and password, which made checking for homework more tedious. This in turn made me more error prone as I was more likely to forget assignments. 
 
@@ -17,6 +21,3 @@ This is a project with the goal of unifying Canvas and Google Classroom so that 
 
 ## Demo
 [▶️ Watch a short demo of the app](https://github.com/user-attachments/assets/8e19b0f4-54a1-464c-b299-4a45306ef9b8)
-
-## Status
-Canvas' free portal has been shut down. The portal was exploited in the May 2026 hacking that brought chaos to educational institutions. As such, this Unifier is now obsolete.
